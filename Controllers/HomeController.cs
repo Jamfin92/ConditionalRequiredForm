@@ -18,6 +18,22 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult ConditionalForm()
+    {
+        return View(new ConditionalFormModel());
+    }
+
+    [HttpPost]
+    public IActionResult ConditionalForm(ConditionalFormModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            TempData["Success"] = "Form submitted successfully!";
+            return RedirectToAction("ConditionalForm");
+        }
+        return View(model);
+    }
+
     public IActionResult Privacy()
     {
         return View();

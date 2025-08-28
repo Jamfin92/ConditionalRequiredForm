@@ -1,0 +1,82 @@
+@model ConditionalRequiredForm.Models.ConditionalFormModel
+@{
+    ViewData["Title"] = "Conditional Required Form";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>@ViewData["Title"]</h2>
+        
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form asp-action="ConditionalForm" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-4">
+                <label asp-for="HasMedicalConditions" class="form-label">@Html.DisplayNameFor(model => model.HasMedicalConditions)</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="HasMedicalConditions" value="false" id="medical-no" checked>
+                    <label class="form-check-label" for="medical-no">
+                        No
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="HasMedicalConditions" value="true" id="medical-yes">
+                    <label class="form-check-label" for="medical-yes">
+                        Yes
+                    </label>
+                </div>
+                <span asp-validation-for="HasMedicalConditions" class="text-danger"></span>
+                
+                <div id="medical-details" class="mt-3" style="display: none;">
+                    <div class="form-group">
+                        <label asp-for="MedicalConditionsDetails" class="form-label">@Html.DisplayNameFor(model => model.MedicalConditionsDetails)</label>
+                        <textarea asp-for="MedicalConditionsDetails" class="form-control" rows="4" placeholder="Please provide details about your medical conditions and any accommodations needed..."></textarea>
+                        <span asp-validation-for="MedicalConditionsDetails" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="HasDietaryRestrictions" class="form-label">@Html.DisplayNameFor(model => model.HasDietaryRestrictions)</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="HasDietaryRestrictions" value="false" id="dietary-no" checked>
+                    <label class="form-check-label" for="dietary-no">
+                        No
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="HasDietaryRestrictions" value="true" id="dietary-yes">
+                    <label class="form-check-label" for="dietary-yes">
+                        Yes
+                    </label>
+                </div>
+                <span asp-validation-for="HasDietaryRestrictions" class="text-danger"></span>
+                
+                <div id="dietary-details" class="mt-3" style="display: none;">
+                    <div class="form-group">
+                        <label asp-for="DietaryRestrictionsDetails" class="form-label">@Html.DisplayNameFor(model => model.DietaryRestrictionsDetails)</label>
+                        <textarea asp-for="DietaryRestrictionsDetails" class="form-control" rows="4" placeholder="Please describe your dietary restrictions, allergies, or special meal requirements..."></textarea>
+                        <span asp-validation-for="DietaryRestrictionsDetails" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/conditional-form.js"></script>
+}
